@@ -17,6 +17,19 @@ const calls = {
         .catch(response => handler(response, "error"));
     }
   },
+  getLatLongLocation: ({ query, handler }) => {
+    if (useMocks) {
+      axios
+        .get(`../mocks/getLocation.json`)
+        .then(response => handler(response.data, "ready"))
+        .catch(response => handler(response, "error"));
+    } else {
+      axios
+        .get(`${API}search/?lattlong=${query}`)
+        .then(response => handler(response.data, "ready"))
+        .catch(response => handler(response, "error"));
+    }
+  },
   getWeather: ({ query, handler }) => {
     if (useMocks) {
       axios

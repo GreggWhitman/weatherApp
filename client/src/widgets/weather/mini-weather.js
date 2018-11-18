@@ -10,7 +10,8 @@ class MiniWeather extends Component {
     theTemp: "",
     minTemp: "",
     maxTemp: "",
-    icon: ""
+    weatherIconKey: "",
+    icon: "mdi mdi-home"
   };
 
   static propTypes = {
@@ -19,6 +20,7 @@ class MiniWeather extends Component {
     theTemp: PropTypes.string,
     minTemp: PropTypes.string,
     maxTemp: PropTypes.string,
+    weatherIconKey: PropTypes.string,
     icon: PropTypes.string
   };
 
@@ -26,11 +28,21 @@ class MiniWeather extends Component {
     return (
       <StyledMiniWeather>
         <Title>{this.props.title}</Title>
-        <Icon icon={this.props.icon} />
+        <WeatherIcon
+          src={`https://www.metaweather.com/static/img/weather/${
+            this.props.weatherIconKey
+          }.svg`}
+        />
         <div>{this.props.weather} </div>
         <TheTemp>{this.props.theTemp} </TheTemp>
-        <div>{this.props.maxTemp} </div>
-        <div>{this.props.minTemp} </div>
+        <div>
+          <Icon icon={"mdi mdi-arrow-up"} />
+          {this.props.maxTemp}
+        </div>
+        <div>
+          <Icon icon={"mdi mdi-arrow-down"} />
+          {this.props.minTemp}
+        </div>
       </StyledMiniWeather>
     );
   }
@@ -38,8 +50,10 @@ class MiniWeather extends Component {
 
 export default MiniWeather;
 
+const WeatherIcon = styled.img``;
+
 const TheTemp = styled.div`
-  font-size: 1.2em;
+  font-size: 1.4em;
 `;
 
 const StyledMiniWeather = styled.div`

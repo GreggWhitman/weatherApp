@@ -28,6 +28,7 @@ class WeatherReady extends Component {
               <MiniWeather
                 key={forecast.id}
                 title={date}
+                weatherIconKey={forecast.weather_state_abbr}
                 weather={forecast.weather_state_name}
                 theTemp={this._roundTemp(forecast.the_temp)}
                 maxTemp={this._roundTemp(forecast.max_temp)}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Calls from "../../calls.js";
-import { Loading, Error, WidgetWrapper } from "../../components";
+import { Loading, Error } from "../../components";
 import WeatherReady from "./weather-ready.js";
 
 class WeatherLoader extends Component {
@@ -15,7 +15,7 @@ class WeatherLoader extends Component {
   };
 
   static propTypes = {
-    woeid: PropTypes.string
+    woeid: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
   //reactLifeCycle
@@ -30,6 +30,7 @@ class WeatherLoader extends Component {
 
   //calls
   _getWeather() {
+    this.setState({ callFeedback: "loading" });
     let call = Calls.getWeather;
     call({
       query: this.props.woeid,

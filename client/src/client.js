@@ -16,11 +16,11 @@ const StyledApp = styled.div`
   font-size: .8em;
   line-height: 1.4;
   text-align: center;
-  background-color: ${e => e.theme.color.black};
-  color: ${e => e.theme.color.white};
+  background-color: ${e => e.theme.color.background};
+  color: ${e => e.theme.color.text};
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: baseline;
 }
 `;
