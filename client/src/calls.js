@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API =
-  "https://cors-proxy.htmldriven.com/?url=https://www.metaweather.com/api/location/";
+  "https://cors-proxy.htmldriven.com/?url=https://www.metaweather.com/api/location/"; //cors bypass
 const useMocks = false; //not ready
 
 const calls = {
