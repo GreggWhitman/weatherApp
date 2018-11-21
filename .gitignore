@@ -1,14 +1,14 @@
 # dependencies
-node_modules/
+node_modules
 
-.idea/
-.netlify/
+.idea
+.netlify
 
 # testing
 coverage
 
 # production
-*./build/
+build
 
 # misc
 .DS_Store
