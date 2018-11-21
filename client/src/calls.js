@@ -1,19 +1,20 @@
 import axios from "axios";
 
-const API = "https://www.metaweather.com/api/location/";
-const useMocks = false;
+const API =
+  "https://cors-proxy.htmldriven.com/?url=https://www.metaweather.com/api/location/";
+const useMocks = false; //not ready
 
 const calls = {
   getLocation: ({ query, handler }) => {
     if (useMocks) {
       axios
         .get(`../mocks/getLocation.json`)
-        .then(response => handler(response.data, "ready"))
+        .then(response => handler(response.body, "ready"))
         .catch(response => handler(response, "error"));
     } else {
       axios
         .get(`${API}search/?query=${query}`)
-        .then(response => handler(response.data, "ready"))
+        .then(response => handler(JSON.parse(response.data.body), "ready"))
         .catch(response => handler(response, "error"));
     }
   },
@@ -26,7 +27,7 @@ const calls = {
     } else {
       axios
         .get(`${API}search/?lattlong=${query}`)
-        .then(response => handler(response.data, "ready"))
+        .then(response => handler(JSON.parse(response.data.body), "ready"))
         .catch(response => handler(response, "error"));
     }
   },
@@ -39,7 +40,7 @@ const calls = {
     } else {
       axios
         .get(`${API}${query}/`)
-        .then(response => handler(response.data, "ready"))
+        .then(response => handler(JSON.parse(response.data.body), "ready"))
         .catch(response => handler(response, "error"));
     }
   }
