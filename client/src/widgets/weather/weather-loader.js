@@ -1,63 +1,37 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import Calls from "../../calls.js";
+import { ErrorContext } from "../../client.js";
+import { GetWeather } from "../../calls.js";
 import { Loading, Error } from "../../components";
 import WeatherReady from "./weather-ready.js";
 
-class WeatherLoader extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { callFeedback: "loading", data: {}, searchValue: "" };
-  }
+WeatherLoader.propTypes = {
+  woeid: PropTypes.string.isRequired
+};
 
-  static defaultProps = {
-    woeid: null
-  };
+function WeatherLoader(props) {
+  const { woeid } = props;
+  const { displayError } = useContext(ErrorContext);
+  const [callFeedback, setCallFeedback] = useState("loading");
+  const [weatherData, setWeatherData] = useState({});
 
-  static propTypes = {
-    woeid: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-  };
-
-  //reactLifeCycle
-  componentDidMount() {
-    this._getWeather();
-  }
-  componentDidUpdate(prevProps) {
-    if (prevProps.woeid !== this.props.woeid) {
-      this._getWeather();
-    }
-  }
-
-  //calls
-  _getWeather() {
-    this.setState({ callFeedback: "loading" });
-    let call = Calls.getWeather;
-    call({
-      query: this.props.woeid,
-      handler: (data, feedback) => this._weatherResponseHandler(data, feedback)
+  useEffect(() => {
+    GetWeather({
+      key: `${woeid}`,
+      done: data => {
+        setWeatherData(data);
+        setCallFeedback("ready");
+      },
+      fail: displayError
     });
-  }
+  }, [woeid]);
 
-  //callbacks
-  _weatherResponseHandler(data, feedback) {
-    this.setState({ weatherData: data, callFeedback: feedback });
-  }
-
-  //private
-
-  render() {
-    const callFeedback = this.state.callFeedback;
-    let forecast;
-
-    if (callFeedback === "ready") {
-      forecast = <WeatherReady forecast={this.state.weatherData} />;
-    } else if (callFeedback === "error") {
-      forecast = <Error error={this.state.data} />;
-    } else {
-      forecast = <Loading />;
-    }
-
-    return forecast;
+  if (callFeedback === "ready") {
+    return <WeatherReady forecast={weatherData} />;
+  } else if (callFeedback === "error") {
+    return <Error error={this.state.data} />;
+  } else {
+    return <Loading />;
   }
 }
 

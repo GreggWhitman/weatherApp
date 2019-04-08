@@ -1,53 +1,40 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+
+import { Forecast } from "./styled.js";
 import MiniWeather from "./mini-weather";
 
-class WeatherReady extends Component {
-  static defaultProps = {
-    forecast: {}
-  };
+WeatherReady.propTypes = {
+  forecast: PropTypes.object.isRequired
+};
 
-  static propTypes = {
-    forecast: PropTypes.object
-  };
-
-  _roundTemp(temp) {
+function WeatherReady(props) {
+  const { forecast } = props;
+  const roundTemp = temp => {
     return `${Math.round(temp)}°C`;
-  }
+  };
 
-  render() {
-    const forecastList = this.props.forecast.consolidated_weather;
-    return (
-      <div>
-        <Forecast>
-          {forecastList.map(forecast => {
-            let date = new Date(forecast.applicable_date);
-            date = date.toLocaleDateString();
-            return (
-              <MiniWeather
-                key={forecast.id}
-                title={date}
-                weatherIconKey={forecast.weather_state_abbr}
-                weather={forecast.weather_state_name}
-                theTemp={this._roundTemp(forecast.the_temp)}
-                maxTemp={this._roundTemp(forecast.max_temp)}
-                minTemp={this._roundTemp(forecast.min_temp)}
-              />
-            );
+  const forecastList = forecast.consolidated_weather;
 
-            // icon={this.props.forecast[weather].icon}
-          })}
-        </Forecast>
-      </div>
-    );
-  }
+  return (
+    <Forecast>
+      {forecastList.map(forecast => {
+        let date = new Date(forecast.applicable_date);
+        date = date.toLocaleDateString();
+        return (
+          <MiniWeather
+            key={forecast.id}
+            title={date}
+            weatherIconKey={forecast.weather_state_abbr}
+            weather={forecast.weather_state_name}
+            theTemp={roundTemp(forecast.the_temp)}
+            maxTemp={roundTemp(forecast.max_temp)}
+            minTemp={roundTemp(forecast.min_temp)}
+          />
+        );
+      })}
+    </Forecast>
+  );
 }
 
 export default WeatherReady;
-
-const Forecast = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
