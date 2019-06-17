@@ -3,29 +3,19 @@ import styled from "styled-components";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme.js";
 
-import { Weather } from "./widgets";
+import Weather from "./weather/weather.js";
 
-const ErrorContext = React.createContext();
-
-const Client = () => {
-  const displayError = e => {
-    console.error(e);
-  };
-
+function Client () {
   return (
     <ThemeProvider theme={theme}>
-      <ErrorContext.Provider value={{ displayError }}>
         <StyledApp>
           <Weather />
         </StyledApp>
-      </ErrorContext.Provider>
     </ThemeProvider>
   );
 };
 
 export default Client;
-
-export { ErrorContext };
 
 const StyledApp = styled.div`
   overflow: hidden;

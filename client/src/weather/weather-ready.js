@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { Forecast } from "./styled.js";
+import styled from "styled-components";
 import MiniWeather from "./mini-weather";
+
+const Forecast = styled.div`
+  display: flex;
+`;
 
 WeatherReady.propTypes = {
   forecast: PropTypes.object.isRequired

@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { ErrorContext } from "../../client.js";
-import { GetWeather } from "../../calls.js";
-import { Loading, Error } from "../../components";
+import { GetWeather } from "../calls.js";
+import { Loading, Error } from "../components";
 import WeatherReady from "./weather-ready.js";
 
 WeatherLoader.propTypes = {
@@ -11,7 +10,6 @@ WeatherLoader.propTypes = {
 
 function WeatherLoader(props) {
   const { woeid } = props;
-  const { displayError } = useContext(ErrorContext);
   const [callFeedback, setCallFeedback] = useState("loading");
   const [weatherData, setWeatherData] = useState({});
 
@@ -22,14 +20,14 @@ function WeatherLoader(props) {
         setWeatherData(data);
         setCallFeedback("ready");
       },
-      fail: displayError
+      fail: ()=>setCallFeedback("error")
     });
   }, [woeid]);
 
   if (callFeedback === "ready") {
     return <WeatherReady forecast={weatherData} />;
   } else if (callFeedback === "error") {
-    return <Error error={this.state.data} />;
+    return <Error error={"something went wrong"} />;
   } else {
     return <Loading />;
   }
